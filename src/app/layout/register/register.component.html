@@ -1,0 +1,150 @@
+<!-- Section: Design Block -->
+<section class="text-center text-lg-start">
+    <style>
+      .cascading-right {
+        margin-right: -50px;
+      }
+  
+      @media (max-width: 991.98px) {
+        .cascading-right {
+          margin-right: 0;
+        }
+      }
+    </style>
+
+    <div class="container-fluid" style="width: 70%;">
+        <!-- Jumbotron -->
+    <div class="container-md py-4">
+        <div class="row g-0 align-items-center">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <div class="card cascading-right bg-body-tertiary" style="
+                backdrop-filter: blur(30px);
+                ">
+              <div class="card-body p-5 shadow-5 text-center">
+                <h2 class="fw-bold mb-5">S'enregistrer maintenant</h2>
+
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+                  <!-- 2 column grid layout with text inputs for the first and last names -->
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div data-mdb-input-init class="form-outline">
+                        <input formControlName="firstname" type="text" id="form3Example1" class="form-control" placeholder="Prénom" required/>
+                        <!-- <label class="form-label" for="form3Example1">First name</label> -->
+                        @if(registerForm.get('firstname')?.invalid && (registerForm.get('firstname')?.dirty || registerForm.get('firstname')?.touched)) {
+                            @if(registerForm.get('firstname')?.hasError('required')) {
+                                <span>Votre prénom est recommendé</span>
+                            }
+                            @if(registerForm.get('firstname')?.hasError('minlength')) {
+                                <span>Au minimum 2 caractères</span>
+                            }
+                        }
+                      </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                      <div data-mdb-input-init class="form-outline">
+                        <input formControlName="lastname" type="text" id="form3Example2" class="form-control" placeholder="Nom" required/>
+                        <!-- <label class="form-label" for="form3Example2">Last name</label> -->
+                        @if(registerForm.get('lastname')?.invalid && (registerForm.get('lastname')?.dirty || registerForm.get('lastname')?.touched)) {
+                            @if(registerForm.get('lastname')?.hasError('required')) {
+                                <span>Votre nom est recommendé</span>
+                            }
+                            @if(registerForm.get('lastname')?.hasError('minlength')) {
+                                <span>Au minimum 2 caractères</span>
+                            }
+                        }
+                      </div>
+                    </div>
+                  </div>
+    
+                  <!-- Email input -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input formControlName="email" type="email" id="form3Example3" class="form-control" placeholder="Adresse email" required/>
+                    <!-- <label class="form-label" for="form3Example3">Email address</label> -->
+                    @if(registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)) {
+                        @if(registerForm.get('email')?.hasError('required')) {
+                            <span>Email est recommendé</span>
+                        }
+                    }
+                  </div>
+    
+                  <!-- Password input -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input formControlName="password" type="password" id="form3Example4" class="form-control" placeholder="Mot de passe" required/>
+                    <!-- <label class="form-label" for="form3Example4">Password</label> -->
+                    @if(registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)) {
+                        @if(registerForm.get('password')?.hasError('required')) {
+                            <span>Votre nom est recommendé</span>
+                        }
+                        @if(registerForm.get('password')?.hasError('minlength')) {
+                            <span>Au minimum 8 caractères</span>
+                        }
+                    }
+                  </div>
+
+                  <!-- Confirm password input -->
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input formControlName="confirmPassword" type="password" id="form3Example4" class="form-control" placeholder="Confirmer à nouveau le mot de passe" required/>
+                    <!-- <label class="form-label" for="form3Example4">Password</label> -->
+                    @if(registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)) {
+                      @if(registerForm.get('confirmPassword')?.hasError('notSame')) {
+                          <span>Veuillez confirmer le mot de passe</span>
+                      }
+                  }
+                  </div>
+    
+                  <!-- Checkbox -->
+                  <div class="form-check d-flex justify-content-center mb-4">
+                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+                    <label class="form-check-label" for="form2Example33">
+                        Abonnez-vous à notre newsletter
+                    </label>
+                  </div>
+    
+                  <!-- Submit button -->
+                  <button type="submit" 
+                    data-mdb-button-init data-mdb-ripple-init 
+                    class="btn btn-primary btn-block mb-4" 
+                    (submit)="submitted"
+                    [disabled]="registerForm.invalid"
+                    (click)="submitted ? showSuccess(successTpl) : showDanger(dangerTpl)"
+                    >
+                    @if(submitted) {
+                      <div class="spinner-grow spinner-grow-sm me-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    }
+                    S'enregistrer
+                  </button>
+    
+                </form>
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <img src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg" class="w-100 rounded-4 shadow-4"
+              alt="" />
+          </div>
+        </div>
+      </div>
+      <!-- Jumbotron -->
+    </div>
+  
+    
+</section>
+<!-- Section: Design Block -->
+
+
+<!-- Section: toast service -->
+
+<ng-template #successTpl> I'm a success toast </ng-template>
+
+<ng-template #dangerTpl>
+  <i class="bi-envelope-x-fill"></i>
+	Adresse email invalide, essayez une autre
+</ng-template>
+
+<app-toasts-container aria-live="polite" aria-atomic="true"></app-toasts-container>
+
+<!-- Section: toast service -->
+  
