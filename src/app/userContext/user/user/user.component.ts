@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { UserService } from '../../../service/user/user.service';
 import { AuthService } from '../../../service/authentication/auth.service';
+import { Data } from '@angular/router';
+import { User } from '../../../model/entities.model';
 
 @Component({
   selector: 'app-user',
@@ -12,16 +14,15 @@ import { AuthService } from '../../../service/authentication/auth.service';
 export class UserComponent {
 
   constructor(private userService: UserService, private authService: AuthService) {
-    if(this.isAuthenticated == true) {
-      this.getUser()
-    }
+    this.getUser()
   }
+
+  
 
   email: string = this.authService.getEmailFromParsedPayload();
   isAuthenticated: boolean | null = this.authService.isLoggedIn()
-  connectedUser: any;
+  connectedUser!: User;
 
-  
   
   getUser() {
     this.userService.fetchUser(this.email).subscribe({

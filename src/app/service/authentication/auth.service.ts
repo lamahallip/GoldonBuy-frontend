@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
 export class AuthService {
 
   private apiUrl: string = 'http://localhost:9299/api/v2/auth';
+  
 
   constructor(private http: HttpClient) { }
 
@@ -28,7 +29,7 @@ export class AuthService {
   login(loginRequest : loginRequest) {
     return this.http.post(`${this.apiUrl}/login`, loginRequest, {responseType:'text'}).pipe(
       delay(5000),
-      tap((result: string) => {
+      tap((result: any) => {
         localStorage.setItem('token', result)
       }));
   }
@@ -63,6 +64,10 @@ export class AuthService {
   getEmailFromParsedPayload(): string {
     const email: string = this.getParsedPayload().sub
     return email;
+  }
+
+  getTokenFromLocalStorage() {
+    return localStorage.getItem('token')
   }
 
 

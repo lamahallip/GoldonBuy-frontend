@@ -1,0 +1,30 @@
+<section class="mx-auto my-5 shadow bg-body rounded-4" style="max-width: 23rem;">
+        
+  <div class="card booking-card v-2 mt-2 mb-4 shadow shadow-primary rounded-bottom">
+    <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
+      <img [src]="img" class="img-fluid">
+      <a href="#!">
+        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+      </a>
+    </div>
+    <div class="card-body">
+      <h4 class="card-title font-weight-bold"><a><strong>{{title}}</strong></a></h4>
+      
+      <p class="card-text">{{description}}. <br><span class="text-primary">Max de produits : {{productLength}}</span></p>
+      <hr class="my-1 text-primary">
+      @if(price == 0) {
+        <p class="card-text">GRATUIT</p>
+        <div>
+          <button class="btn btn-primary btn-sm">Essayez</button>
+        </div>
+      } @else {
+        <p class="card-text">{{price | currency }} par mois</p>
+        <div>
+          <button class="btn btn-primary btn-sm">Passez >></button>
+        </div>
+      }
+      
+    </div>
+  </div>
+  
+</section>

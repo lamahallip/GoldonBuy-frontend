@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserService } from '../../service/user/user.service';
 import { AuthService } from '../../service/authentication/auth.service';
 
@@ -14,6 +14,12 @@ export class NavigationComponent {
 
   isAuthenticated: boolean | null = this.authService.isLoggedIn()
 
-  constructor(private authService: AuthService ) {}
+  constructor(private authService: AuthService, private router: Router ) {}
+
+  loadProfilComponent() {
+    this.router.navigate(['layout', { outlets: { aux: ['profile'] } }])
+  }
+
+
 
 }

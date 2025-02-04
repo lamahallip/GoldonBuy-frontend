@@ -1,0 +1,380 @@
+@if(connectedUser) {
+
+  <section>
+        <div class="container py-5">
+    
+          <!--  
+          <div class="row">
+            <div class="col">
+              <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
+                <ol class="breadcrumb mb-0">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item"><a href="#">User</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                </ol>
+              </nav>
+            </div>
+          </div>  
+          -->  
+          
+          <!-- Card information avatar -->
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                    class="rounded-circle img-fluid" style="width: 150px;">
+                  <h5 class="my-2">{{ connectedUser.firstName }} {{ connectedUser.lastName }}</h5>
+                  @if(connectedUser.roles[0].name == "ROLE_ADMIN") {
+                    <p class="text-muted mb-2">ADMINISTRATEUR</p>
+                  }
+                  <p class="text-muted mb-2">CLIENT</p>
+                  <!-- 
+                  <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                  -->                    
+                  <div class="d-flex justify-content-center mb-2">
+                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-md btn-primary" 
+                    (click)="onUpdateUser()"
+                    >Modifier</button>
+                  <!-- 
+                  <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary ms-1">Administrateur</button>
+                  -->    
+                    
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card information avatar end -->
+
+              <!-- Card to update user information -->
+              @if(updateProfile) {
+                <div class="card mb-4 mb-lg-0 px-3 py-4">
+                    <div class="card-body p-0">
+                        <form class="row g-3 needs-validation" novalidate [formGroup]="updateForm" (ngSubmit)="onSubmit()" >
+
+                            <div class="col-12">
+                              <div class="form-outline" data-mdb-input-init>
+                                <label for="validationCustom01" class="form-label">Prénom</label>
+                                <input type="text" class="form-control" id="validationCustom01"
+                                formControlName="firstname"
+                                placeholder="{{connectedUser.firstName}}" 
+                                required /> 
+                                <div class="valid-feedback">Looks good!</div>
+                              </div>
+                            </div>
+
+                            <div class="col-12">
+                              <div class="form-outline" data-mdb-input-init>
+                                <label for="validationCustom02" class="form-label">Nom</label>
+                                <input type="text" class="form-control" id="validationCustom02"
+                                formControlName="lastname"
+                                placeholder="{{connectedUser.lastName}}" 
+                                required />                       
+                                <div class="valid-feedback">Looks good!</div>
+                              </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-outline" data-mdb-input-init>
+                                  <label for="validationCustom02" class="form-label">Email</label>
+                                  <input type="text" class="form-control" id="validationCustom02" 
+                                  formControlName="email"
+                                  placeholder="{{connectedUser.email}}" required />                       
+                                  <div class="valid-feedback">Looks good!</div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-outline" data-mdb-input-init>
+                                  <label for="validationCustom02" class="form-label">Mot de passe</label>
+                                  <input type="password" class="form-control" id="validationCustom02" placeholder="Entrer votre mot de passe"
+                                  formControlName="password"
+                                  required />                       
+                                  <div class="valid-feedback">Looks good!</div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                              <!-- Confirm password input -->
+                            <div data-mdb-input-init class="form-outline mb-4">
+                              <label class="form-label" for="form3Example4">Confirmer à nouveau</label>
+                              <input formControlName="confirmPassword" type="password" id="form3Example4" class="form-control" placeholder="Confirmer à nouveau" required/>
+                              
+                              @if(updateForm.get('confirmPassword')?.invalid && (updateForm.get('confirmPassword')?.dirty || updateForm.get('confirmPassword')?.touched)) {
+                                @if(updateForm.get('confirmPassword')?.hasError('notSame')) {
+                                  <span style="color: rgb(255, 87, 87);">Veuillez confirmer le mot de passe</span>
+                              }
+                  }
+                  </div>
+                                
+                 
+                              
+                            </div>
+                           
+                            <div class="col-5">
+                              <button class="btn btn-sm btn-primary" type="submit" [disabled]="updateForm.invalid" data-mdb-ripple-init>
+                                @if(submitted) {
+                                  <div class="spinner-grow spinner-grow-sm me-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                                }
+                                Mettre à jour</button>
+                            </div>
+                            
+                          </form>
+                          <div class="mt-3">
+                            <button class="btn btn-sm btn-outline-primary" data-mdb-ripple-init (click)="onDeleteUpdateUser()">Annuler</button>
+                          <div class="mt-3">
+                            <hr>
+                            <p>
+                            Je souhaite supprimer mon compte ainsi que toutes les données associées.
+                            </p>
+                            <button class="btn btn-sm btn-danger" data-bs-target="#exampleModal" data-bs-toggle="modal">Supprimer</button>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+              }
+              <!-- Card to update user information end -->
+
+              <!-- 
+              <div class="card mb-4 mb-lg-0">
+                <div class="card-body p-0">
+                  <ul class="list-group list-group-flush rounded-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                      <i class="fas fa-globe fa-lg text-warning"></i>
+                      <p class="mb-0">https://mdbootstrap.com</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                      <i class="fab fa-github fa-lg text-body"></i>
+                      <p class="mb-0">mdbootstrap</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                      <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                      <p class="mb-0">mdbootstrap</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                      <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                      <p class="mb-0">mdbootstrap</p>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                      <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                      <p class="mb-0">mdbootstrap</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              -->
+
+            <!-- Card to show user information -->  
+            </div>
+            <div class="col-lg-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Prénom</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ connectedUser.firstName }}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Nom</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ connectedUser.lastName }}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Email</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ connectedUser.email }}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  @if(connectedUser.roles[0].name == "ROLE_ADMIN") {
+                    
+                    <div class="row">
+                        <div class="col-sm-3">
+                        <p class="mb-0">Phone</p>
+                        </div>
+                        <div class="col-sm-9">
+                        <p class="text-muted mb-0">(097) 234-5678</p>
+                        </div>
+                    </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Mobile</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">(098) 765-4321</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Address</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                    </div>
+                  </div>
+                  
+                  } @else {
+                    <div class="mt-3">
+                        <p>Bonjour {{connectedUser.firstName}}, <br><br> Bienvenue chez <strong class="text-primary">GOLDON</strong> ! Nous sommes ravis de vous voir faire partie de notre communauté.
+                        En tant que nouveau membre, vous rejoignez une communauté de personnes passionnées.
+                        Explorez notre sélection de produits et services conçus pour enrichir votre vie.  
+                        <br>                          
+                        N'hésitez pas à découvrir, interagir et collaborer avec nous pour créer votre boutique de commerce en ligne.
+                        </p>
+
+                        <p>
+                        <strong>Passez à la version Premium et profitez de tous les avantages !</strong>   <br><br>
+
+                        Pour une expérience encore plus riche et sans interruption, devenez <strong class="text-primary">Administrateur Principal</strong> de votre boutique de commerce. En choisissant l'abonnement Premium, vous bénéficiez de : <br>
+
+                        <ul>
+                          <li><strong class="text-primary">Une boutique virtuelle :</strong> Plus de possibilités pour digitaliser vos produits, vos marchandises et optimiser vos résultats.</li>
+                          <li><strong class="text-primary">Une visibilté améliorée :</strong> Les clients pourront visiter vos produits, lancer des commandes depuis leur smartphone et vous contacter n'importe où</li>
+                  
+                          <li><strong class="text-primary">Support prioritaire :</strong>Une assistance rapide et dédiée pour répondre à toutes vos questions.</li>
+                          <li><strong class="text-primary">Mises à jour régulières :</strong> Accédez en avant-première aux dernières fonctionnalités et améliorations.</li>
+                        </ul>
+
+                        Ne manquez pas cette occasion d'améliorer votre expérience !
+                        Passez à Premium dès maintenant et explorez tout ce que nous avons à offrir. Pour devenir un administrateur principal et gerer votre boutique, contactez-nous au ::email::
+
+                        <div class="row">
+
+                          <div class="col-4"><app-card-premium 
+                            img="https://mdbootstrap.com/img/Photos/Others/water-lily.jpg"
+                            title="VERSION D'ESSAI"
+                            description="
+                            Essayez notre version premium gratuitement pendant 14 jours  
+                            "
+                            [price]="0"
+                            [productLength]="7"
+                            >
+                          </app-card-premium></div>
+
+                          <div class="col-4"><app-card-premium
+                            img="https://mdbootstrap.com/img/Photos/Others/water-lily.jpg"
+                            title="PREMIUM"
+                            description="
+                            Débloquez des fonctionnalités exclusives avec notre version Premium                          
+                            "
+                            [price]=13.81
+                            [productLength]="50"
+                            >
+                          </app-card-premium></div>
+
+                          <div class="col-4"><app-card-premium
+                            img="https://mdbootstrap.com/img/Photos/Others/water-lily.jpg"
+                            title="ULTIMATE"
+                            description="
+                            Passez à l'Ultimate et bénéficiez de l'expérience la plus complète                            
+                            "
+                            [price]="32.33"
+                            [productLength]="118" 
+                            >
+                          </app-card-premium></div>
+                        </div>
+                        
+                        
+                        
+                    </div>    
+                  }
+                </div>
+              </div>
+
+              @if(connectedUser.roles[0].name == "ROLE_ADMIN") {
+                <div class="row">
+                    <div class="col-md-6">
+                      <div class="card mb-4 mb-md-0">
+                        <div class="card-body">
+                          <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
+                          </p>
+                          <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                          <div class="progress rounded" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
+                          <div class="progress rounded" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
+                          <div class="progress rounded" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="89"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
+                          <div class="progress rounded" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
+                          <div class="progress rounded mb-2" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card mb-4 mb-md-0">
+                        <div class="card-body">
+                          <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
+                          </p>
+                          <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                          <div class="progress rounded" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
+                          <div class="progress rounded" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
+                          <div class="progress rounded" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="89"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
+                          <div class="progress rounded" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                          <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
+                          <div class="progress rounded mb-2" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66"
+                              aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              }
+            <!-- Card to show user information end --> 
+
+            
+            </div>
+          </div>
+        </div>
+  </section>
+      
+
+}
+
+
+
